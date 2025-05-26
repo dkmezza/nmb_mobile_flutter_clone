@@ -38,16 +38,20 @@ The profile feature allows users to manage their personal information, display p
 
 ### User Flow
 ```
-Dashboard → Profile Circle Tap → Profile Screen → [Edit Options] → Save Changes → Dashboard
-    ↑                                    ↓              ↓
-    ←──── Back Navigation ←──── Photo Change ←──── Name Edit
+Dashboard → Profile Circle Tap → Profile Screen → [Photo/Name Edit] → Modal → Save → Profile Screen → Dashboard
+    ↑                                      ↓              ↓              ↓
+    ←──── Back Navigation ←──── Photo Modal ←──── Name Modal ←──── Confirmation
+                                    ↓
+                              Camera/Gallery Selection
 ```
 
 ### Navigation Patterns
 - **Header Navigation:** Back arrow to return to dashboard
-- **Modal Editing:** Name editing opens in focused input mode
-- **Photo Selection:** Camera/gallery picker for profile picture updates
-- **Auto-Save:** Changes save automatically or with explicit save action
+- **Modal Interactions:** Bottom sheet for photo selection, center modal for name editing
+- **Photo Selection:** Camera/gallery picker modal with two clear options
+- **Name Editing:** Focused modal overlay with input field and save action
+- **Auto-Save:** Name changes save explicitly via SAVE button
+- **Modal Dismissal:** Tap outside modal or use device back button to cancel
 - **Confirmation:** Success feedback when changes are saved
 
 ### Exit Points
@@ -142,6 +146,72 @@ Dashboard → Profile Circle Tap → Profile Screen → [Edit Options] → Save 
 - **Pressed:** Light blue background (#E3F2FD) with darker blue border
 - **Disabled:** Gray border and text (if editing restrictions apply)
 
+### Modal Interactions
+
+#### Photo Selection Modal
+**Modal Specifications:**
+- **Type:** Bottom sheet modal
+- **Background:** White with rounded top corners (16dp radius)
+- **Height:** Auto-sizing based on content (approximately 200dp)
+- **Overlay:** Semi-transparent dark background (0.5 opacity)
+
+**Modal Header:**
+- **Title:** "Select option" (20sp, bold, dark gray #424242)
+- **Subtitle:** "Select options to upload your display photo" (14sp, regular, medium gray #757575)
+- **Padding:** 24dp top, 20dp horizontal
+
+**Option Items:**
+- **Layout:** Two options in vertical list
+- **Item Height:** 64dp each
+- **Background:** White with subtle press state
+- **Padding:** 20dp horizontal
+
+**Camera Option:**
+- **Icon:** Orange camera icon (24dp, #FF6B35)
+- **Text:** "Camera" (16sp, medium weight, dark gray)
+- **Arrow:** Right-pointing chevron (16dp, medium gray)
+- **Function:** Open device camera for new photo
+
+**Gallery Option:**
+- **Icon:** Orange photo/gallery icon (24dp, #FF6B35)
+- **Text:** "Choose from photos" (16sp, medium weight, dark gray)
+- **Arrow:** Right-pointing chevron (16dp, medium gray)
+- **Function:** Open device photo gallery
+
+#### Name Edit Modal
+**Modal Specifications:**
+- **Type:** Center modal with rounded corners
+- **Background:** White
+- **Corner Radius:** 16dp all corners
+- **Size:** Full width minus 40dp margins (20dp each side)
+- **Height:** Auto-sizing based on content (approximately 200dp)
+- **Overlay:** Semi-transparent dark background (0.5 opacity)
+
+**Modal Content:**
+- **Padding:** 24dp all around
+- **Input Field:**
+  - **Label:** "Preferred Name" (14sp, medium gray, positioned above field)
+  - **Background:** Light gray (#F5F5F5)
+  - **Border:** 1dp light gray, changes to blue when focused
+  - **Corner Radius:** 8dp
+  - **Height:** 56dp
+  - **Padding:** 16dp horizontal
+  - **Typography:** 16sp, regular weight
+  - **Placeholder:** Current preferred name pre-filled
+
+**Save Button:**
+- **Width:** Full width of modal content
+- **Height:** 56dp
+- **Background:** Blue (#1E4A8C)
+- **Corner Radius:** 28dp
+- **Text:** "SAVE" (16sp, bold, white)
+- **Position:** 24dp below input field
+- **States:**
+  - **Normal:** Blue background
+  - **Pressed:** Darker blue (#1A3F7A)
+  - **Loading:** Loading spinner with "SAVING..." text
+  - **Disabled:** Light gray when input is invalid
+
 ### Responsive Design Considerations
 **Small Screens (<360dp width):**
 - Reduce profile picture size to 100dp
@@ -172,6 +242,13 @@ final profilePictureProvider = StateProvider<File?>((ref) => null);
 final preferredNameProvider = StateProvider<String?>((ref) => null);
 
 final profileEditModeProvider = StateProvider<bool>((ref) => false);
+
+// Additional providers for modal states
+final photoSelectionModalProvider = StateProvider<bool>((ref) => false);
+
+final nameEditModalProvider = StateProvider<bool>((ref) => false);
+
+final nameInputProvider = StateProvider<String>((ref) => '');
 ```
 
 ### State Classes
@@ -381,15 +458,21 @@ class ProfileUpdateRequest {
 - **Staggered Loading:** Profile card, then picture, then name section
 - **Fade In:** Content fades in with slight upward movement
 
+**Modal Transitions:**
+- **Photo Selection Modal:** Bottom sheet slides up from bottom (300ms)
+- **Name Edit Modal:** Center modal fades in with scale animation (200ms)
+- **Modal Overlay:** Background overlay fades in simultaneously
+- **Modal Dismissal:** Reverse animation when closing modals
+
 **Edit Mode Transitions:**
-- **Name Edit:** Smooth transition from display text to input field
-- **Modal Overlay:** Semi-transparent overlay for focused editing
+- **Input Focus:** Smooth transition to focused input field with cursor
 - **Keyboard Animation:** Content adjusts smoothly for keyboard appearance
+- **Save Animation:** Button transforms to loading state during save
 
 **Image Selection:**
-- **Camera/Gallery:** Bottom sheet slide-up animation for source selection
-- **Crop Interface:** Smooth transition to image cropping interface
-- **Preview:** Fade transition showing new image before confirmation
+- **Camera/Gallery:** Navigation to device camera or gallery
+- **Image Return:** Smooth transition back to profile with new image
+- **Crop Interface:** Transition to image cropping interface if needed
 
 ### Loading States
 **Profile Loading:**
@@ -478,8 +561,9 @@ class ProfileUpdateRequest {
 
 **Widget Tests:**
 - **Profile Display:** Test profile information rendering
-- **Edit Interactions:** Test name editing and profile picture selection
-- **Form Validation:** Test input validation and error display
+- **Modal Interactions:** Test photo selection and name edit modals
+- **Form Validation:** Test input validation and error display in name edit modal
+- **Button States:** Test modal triggers and save button functionality
 - **Responsive Layout:** Test layout at different screen sizes
 
 **Integration Tests:**
