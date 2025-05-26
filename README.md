@@ -1,16 +1,25 @@
-# nmb_mobile_clone
+# NMB Mobile Clone
 
-A new Flutter project.
+## 🎯 Project Overview
+This is a clone to the NMB Mobile app. It's build with flutter and riverpod
 
-## Getting Started
+## 🚀 Quick Start
+- Prerequisites
+- Installation steps
+- Running the app
 
-This project is a starting point for a Flutter application.
+## 📖 Documentation
+- [Design System](./docs/design/DESIGN_SYSTEM.md)
+- [Feature Documentation](./docs/design/)
+- [API Documentation](./docs/api/)
+- [Development Guide](./docs/development/)
 
-A few resources to get you started if this is your first Flutter project:
+## 🏗️ Architecture
+- State management (Riverpod)
+- Project structure
+- Key dependencies
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🤝 Contributing
+- [Contributing Guidelines](./docs/development/CONTRIBUTING.md)
+- [Code Style Guide](./docs/development/CODE_STYLE.md)
+- Issue templates
