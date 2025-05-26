@@ -57,61 +57,63 @@ App Launch → Splash Screen → Onboarding Carousel → PIN Authentication → 
 
 ### Layout Structure
 **Screen Composition (Vertical):**
-- **Background Layer (0-100%):** Promotional content with decorative elements
+- **Background Layer (0-100%):** Full-screen promotional background images
 - **Authentication Overlay (60-100%):** White rounded container with PIN interface
-- **Content Distribution:** 60% promotional content, 40% authentication interface
+- **Content Distribution:** 60% promotional background, 40% authentication interface
 
-### Background Design System
-**Base Background:**
-- Primary: Blue gradient (`#1E4A8C` to `#2B5AA0`)
-- Decorative floating elements: Circles and organic shapes
-- Colors: White (opacity 0.1-0.3), Orange (`#FF6B35`, opacity 0.2-0.4)
-- Sizes: 20dp, 40dp, 60dp, 80dp randomly distributed
+### Background Image System
+**Implementation Approach:**
+- Each slide is a complete graphic image created by the design/marketing team
+- Images contain all promotional content (text, logos, people, branding)
+- Flutter implementation simply displays the image as a full-screen background
+- No text overlays or programmatic content positioning required
 
-**Content Overlay:**
-- Semi-transparent dark overlay (opacity 0.1) for text readability
-- Responsive text sizing based on screen dimensions
+**Image Specifications:**
+- **Format:** PNG or WebP for quality, JPEG for smaller file sizes
+- **Resolution:** Multiple densities (1x, 2x, 3x) for different screen sizes
+- **Aspect Ratio:** Designed for mobile screens (9:16 or similar)
+- **File Naming:** `onboarding_slide_01.png`, `onboarding_slide_02.png`, etc.
 
-### Slide-Specific Content
+### Slide Content Overview
+**Note:** All visual elements described below are baked into the promotional images
 
 #### Slide 1: Banking Services Promotion
-**Visual Elements:**
-- **Headline:** "ONJA UNOGEWE!" (Bold, 32sp, Orange #FF6B35)
-- **Subline:** "*Teleza Kidigitali" (16sp, Orange #FF8F65)
-- **Body Text:** "Donge Nono Lipo Mkononi" (18sp, White)
-- **Secondary Text:** "Pokea / Fanya Malipo kwa" (14sp, Light Gray)
-- **Percentage Highlight:** "10%" (64sp, Bold, Orange)
-- **Brand Elements:** Lipa Mkononi logo, NMB card images
-- **Characters:** Two people in celebratory poses (left: man in red striped shirt, right: woman in white top)
+**Image Content:**
+- Blue gradient background with floating decorative elements
+- "ONJA UNOGEWE!" headline in bold orange text
+- "*Teleza Kidigitali" subline and additional promotional text
+- "10%" percentage highlight prominently displayed
+- Lipa Mkononi branding and NMB card visuals
+- Two people in celebratory poses (promotional lifestyle imagery)
 
 #### Slide 2: Shopping Experience
-**Visual Elements:**
-- **Background:** Young woman with natural hair, striped crop top, carrying shopping bags
-- **Mood:** Joyful, lifestyle-focused, urban setting
-- **Color Emphasis:** Maintains blue background with orange accents
-- **Message Focus:** Mobile commerce and retail convenience
+**Image Content:**
+- Young woman with shopping bags against blue background
+- Decorative floating elements (circles and shapes)
+- Lifestyle-focused promotional imagery
+- Consistent blue and orange branding elements
 
 #### Slide 3: Mobile Payments & Mobility
-**Visual Elements:**
-- **Background:** Man on motorcycle holding smartphone, smiling
-- **Setting:** Urban street scene with colorful buildings
-- **Message Focus:** On-the-go payments, transportation, accessibility
-- **Lifestyle Element:** Active, mobile professional
+**Image Content:**
+- Man on motorcycle with smartphone in urban setting
+- Street scene with colorful buildings
+- Mobile-first lifestyle representation
+- Consistent brand color scheme and decorative elements
 
 #### Slide 4: Fantasy Sports Promotion
-**Visual Elements:**
-- **Headline:** "MWENYE KIKOSI BORA ASHINDEE!" (Bold, 28sp, White)
-- **Prize Text:** "Timu yako itakupa mkwanja wa Tsh 150,000 mwezi huu!" (16sp, White)
-- **Brand Logo:** "GO Fantasy League" with football icon
-- **Background:** Football player in white jersey, arms crossed, confident pose
-- **Call-to-Action:** League joining URL
+**Image Content:**
+- "MWENYE KIKOSI BORA ASHINDEE!" headline text
+- Prize information and promotional details
+- GO Fantasy League branding with football theme
+- Football player in confident pose
+- Consistent blue background with brand elements
 
 #### Slide 5: Social & Lifestyle
-**Visual Elements:**
-- **Background:** Woman with curly hair enjoying colorful ice cream/popsicle
-- **Mood:** Social, leisure, enjoyment
-- **Setting:** Casual, friendly atmosphere
-- **Focus:** Personal enjoyment and social aspects of mobile banking
+**Image Content:**
+- Woman enjoying ice cream/popsicle
+- Social and leisure lifestyle representation
+- Warm, friendly atmosphere
+- Consistent brand colors and decorative styling
 
 ### Component Specifications
 
@@ -177,31 +179,51 @@ class OnboardingNotifier extends StateNotifier<OnboardingState> {
 ```dart
 class OnboardingSlide {
   final String id;
-  final String? headline;
-  final String? subline;
-  final String? bodyText;
-  final String? backgroundImage;
-  final List<String> brandLogos;
-  final Map<String, dynamic> customContent;
+  final String backgroundImagePath;
+  final String? altText; // For accessibility
+  final int order;
+  final bool isActive;
   
   const OnboardingSlide({
     required this.id,
-    this.headline,
-    this.subline,
-    this.bodyText,
-    this.backgroundImage,
-    this.brandLogos = const [],
-    this.customContent = const {},
+    required this.backgroundImagePath,
+    this.altText,
+    required this.order,
+    this.isActive = true,
   });
 }
+
+// Example usage
+final List<OnboardingSlide> onboardingSlides = [
+  OnboardingSlide(
+    id: 'banking_promotion',
+    backgroundImagePath: 'assets/images/onboarding_slide_01.png',
+    altText: 'Banking services promotion with cashback offers',
+    order: 1,
+  ),
+  OnboardingSlide(
+    id: 'shopping_experience',
+    backgroundImagePath: 'assets/images/onboarding_slide_02.png',
+    altText: 'Woman with shopping bags representing mobile commerce',
+    order: 2,
+  ),
+  // ... additional slides
+];
+```
 ```
 
 ### API Requirements
 **Content Management:**
-- GET `/api/v1/onboarding/slides` - Fetch current promotional content
-- Response includes slide order, content, images, and promotion details
+- GET `/api/v1/onboarding/slides` - Fetch current slide configuration
+- Response includes slide order, image URLs, and metadata
 - Support for A/B testing different slide variations
-- Localization support for multiple languages
+- Remote configuration for enabling/disabling specific slides
+
+**Image Assets:**
+- CDN delivery for optimized image loading
+- Multiple resolution support (1x, 2x, 3x)
+- Progressive image loading with low-quality placeholders
+- Cache headers for efficient image caching
 
 **Analytics Tracking:**
 - POST `/api/v1/analytics/onboarding` - Track slide interactions
@@ -209,10 +231,11 @@ class OnboardingSlide {
 - Duration tracking for optimization
 
 ### Error Handling
-- **Network Failures:** Fall back to cached/bundled slide content
-- **Image Loading Errors:** Show branded color backgrounds with text content
-- **Content Loading Delays:** Show skeleton screens while loading
-- **Malformed Content:** Skip problematic slides, log errors for monitoring
+- **Network Failures:** Fall back to bundled slide images in assets folder
+- **Image Loading Errors:** Show branded color background with loading indicator
+- **Image Loading Delays:** Display low-quality placeholder while loading full resolution
+- **Malformed API Response:** Skip problematic slide configurations, log errors for monitoring
+- **Missing Image Assets:** Fall back to default promotional background
 
 ## 5. Interactions & Animations
 
@@ -243,13 +266,14 @@ class OnboardingSlide {
 
 ### Loading States
 **Initial Load:**
-- **Skeleton Screen:** Show slide structure with loading placeholders
-- **Progressive Enhancement:** Load text first, then images
-- **Shimmer Effect:** Animated placeholder content
+- **Placeholder Images:** Show low-quality placeholder while loading full resolution
+- **Progressive Loading:** Load images in order of priority (current slide first)
+- **Smooth Transitions:** Fade in images once fully loaded
 
 **Content Updates:**
-- **Background Refresh:** Update content without disrupting user experience
-- **Cache Strategy:** Preload next slide content for smooth transitions
+- **Background Refresh:** Update slide images without disrupting user experience
+- **Cache Strategy:** Preload next slide image for smooth transitions
+- **Fallback Strategy:** Always maintain bundled assets as fallback
 
 ### Feedback Mechanisms
 **User Actions:**
@@ -321,10 +345,16 @@ class OnboardingSlide {
 
 ### Planned Improvements
 **Personalization:**
-- **Dynamic Content:** Personalized slides based on user behavior and preferences
-- **Location-Based:** Regional promotions and services
-- **Time-Sensitive:** Holiday and seasonal promotional content
-- **User Segmentation:** Different onboarding flows for different user types
+- **Dynamic Slide Selection:** Choose which promotional images to show based on user behavior
+- **Location-Based:** Regional promotional images and campaigns
+- **Time-Sensitive:** Holiday and seasonal promotional backgrounds
+- **User Segmentation:** Different slide sets for different user types
+
+**Content Management:**
+- **Remote Image Updates:** Update promotional images without app store releases
+- **Campaign Management:** Schedule and manage promotional campaigns
+- **Performance Analytics:** Track which promotional images drive most engagement
+- **Real-time Updates:** Push new promotional content based on current campaigns
 
 **Interactive Elements:**
 - **Embedded Videos:** Short promotional videos within slides
