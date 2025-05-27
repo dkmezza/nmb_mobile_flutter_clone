@@ -179,11 +179,53 @@ Authentication Success → Dashboard → [Service Selection] → Service Flow
     - Label: "Hide Balance" (14sp, regular, white)
     - Position: Bottom center of balance section
 
-**Promotional Banner:**
-- **Background:** Dark background with orange accents
-- **Content:** "MSHIKO FASTA" branding with person using phone
-- **Text:** "150 66" with "Aksauti Miamala Mikopo Malipo" subtitle
+### Promotional Banner Carousel
+**Layout Structure:**
 - **Position:** Between service grid and bottom navigation
+- **Height:** Approximately 160dp
+- **Margins:** 20dp horizontal
+- **Corner Radius:** 12dp
+- **Type:** Auto-cycling carousel with multiple promotional slides
+
+**Carousel Specifications:**
+- **Auto-advance:** Slides change automatically every 5-7 seconds
+- **Manual Navigation:** User can swipe left/right to navigate slides
+- **Slide Indicator:** Small dots indicating current slide position (visible in some slides)
+- **Transition:** Smooth horizontal slide animation (300ms)
+
+**Promotional Slides:**
+
+#### Slide 1: Banking Services ("ONJA UNOGEWE!")
+- **Background:** Blue gradient with decorative elements
+- **Main Content:** Woman in traditional jewelry, celebrating
+- **Text:** "ONJA UNOGEWE!" in large orange text
+- **Subtext:** "*Teleza Kidigitali", "Donge Nono Lipo Mkononi"
+- **Highlight:** "10%" in large orange text
+- **Branding:** Lipa Mkononi logo visible
+- **Theme:** Cashback and digital payments promotion
+
+#### Slide 2: Savings Services ("2SAVE")
+- **Background:** Light background with family imagery
+- **Main Content:** Happy family (parents and child) in home setting
+- **Text:** "2SAVE" prominently displayed
+- **Subtext:** "Miamala ni Akibavyako" and additional savings messaging
+- **Theme:** Family savings and financial planning
+- **Mood:** Warm, family-oriented, aspirational
+
+#### Slide 3: Loan Services ("MSHIKO FASTA")
+- **Background:** Dark background with orange accents
+- **Main Content:** Woman using mobile phone, appearing confident
+- **Text:** "MSHIKO FASTA" in bold white text
+- **Details:** "150 66" with "Aksauti Miamala Mikopo Malipo" subtitle
+- **Theme:** Fast loan services and mobile lending
+- **Mood:** Confident, mobile-first, immediate solutions
+
+**Technical Carousel Features:**
+- **Responsive Design:** Adapts to different screen sizes
+- **Touch Gestures:** Swipe support for manual navigation
+- **Auto-pause:** Pauses auto-advance when user interacts
+- **Accessibility:** Screen reader support for promotional content
+- **Analytics:** Track user interaction with different promotional slides
 
 ### Service Grid
 **Grid Layout:**
