@@ -97,6 +97,29 @@ Authentication Success → Dashboard → [Service Selection] → Service Flow
 - **Right Side:** "OTHER ACCOUNTS" with grid icon
 - **Typography:** 14sp, medium weight, white
 - **Indicator:** Underline for active section
+- **Action:** "OTHER ACCOUNTS" opens account management modal
+
+**Other Accounts Modal:**
+- **Type:** Full screen overlay with modal content
+- **Background:** Semi-transparent dark overlay
+- **Modal Content:**
+  - **Icon:** Warning triangle with refresh arrow (orange and blue)
+  - **Message:** "Sorry, it appears that you do not have any other accounts. Please try again if you do have additional accounts."
+  - **Typography:** 16sp, regular, center-aligned, dark gray
+  - **Buttons:**
+    - **CLOSE:** Blue background, white text, full width, 56dp height
+    - **RETRY:** Blue text on transparent background, 24dp margin from CLOSE
+
+### Timeout Modal
+**Modal Specifications:**
+- **Type:** Bottom sheet modal with white background
+- **Title:** "Timeout" (20sp, bold, orange #FF6B35)
+- **Icon:** Orange information circle (32dp)
+- **Message:** "You have been inactive for a while, you will be logged out within 50 s."
+- **Typography:** 16sp, regular, center-aligned
+- **Button:** "I'M STILL HERE" (blue background, white text, full width)
+- **Behavior:** Countdown timer updates the seconds display
+- **Auto-dismiss:** Automatically logout user when countdown reaches 0
 
 ### Account Card
 **Card Specifications:**
@@ -122,14 +145,45 @@ Authentication Success → Dashboard → [Service Selection] → Service Flow
 1. **Full Statement:**
    - Icon: Document/list icon
    - Label: "Full Statement" (12sp, center-aligned below button)
+   - Action: Navigation to full statement screen
 
 2. **Mini Statement:**
    - Icon: Receipt/short document icon
    - Label: "Mini Statement" (12sp, center-aligned below button)
+   - Action: Navigation to mini statement screen
 
 3. **Show Balance:**
    - Icon: Eye/visibility icon
    - Label: "Show Balance" (12sp, center-aligned below button)
+   - Action: Toggle balance visibility and navigation to balance view
+
+### Balance View (Show Balance)
+**Layout Structure:**
+- **Header:** User profile and settings (same as dashboard)
+- **Balance Display:** Center-focused balance information
+- **Service Grid:** Same 3x3 grid as dashboard
+- **Promotional Banner:** "MSHIKO FASTA" advertisement
+
+**Balance Display Specifications:**
+- **Background:** Blue gradient (same as header)
+- **Height:** Approximately 300dp
+- **Content Layout:**
+  - **Actual Balance:**
+    - Label: "Actual" (16sp, regular, white)
+    - Amount: "TZS 9,494.48" (32sp, bold, white)
+  - **Available Balance:**
+    - Label: "Available" (16sp, regular, white)
+    - Amount: "TZS 9,494.48" (24sp, medium, white)
+  - **Hide Balance Button:**
+    - Icon: Eye with slash (24dp, white)
+    - Label: "Hide Balance" (14sp, regular, white)
+    - Position: Bottom center of balance section
+
+**Promotional Banner:**
+- **Background:** Dark background with orange accents
+- **Content:** "MSHIKO FASTA" branding with person using phone
+- **Text:** "150 66" with "Aksauti Miamala Mikopo Malipo" subtitle
+- **Position:** Between service grid and bottom navigation
 
 ### Service Grid
 **Grid Layout:**
