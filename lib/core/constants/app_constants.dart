@@ -6,12 +6,12 @@ class AppConstants {
   static const String appName = 'NMB Mobile';
   
   // Asset paths
-  static const String splashImagePath = 'assets/onboarding/splash.png';
-  static const String onboarding1ImagePath = 'assets/onboarding/onboarding1.png';
-  static const String onboarding2ImagePath = 'assets/onboarding/onboarding2.png';
-  static const String onboarding3ImagePath = 'assets/onboarding/onboarding3.png';
-  static const String onboarding4ImagePath = 'assets/onboarding/onboarding4.png';
-  static const String onboarding5ImagePath = 'assets/onboarding/onboarding5.png';
+  static const String splashImagePath = 'assets/images/onboarding/splash.png';
+  static const String onboarding1ImagePath = 'assets/images/onboarding/onboarding1.png';
+  static const String onboarding2ImagePath = 'assets/images/onboarding/onboarding2.png';
+  static const String onboarding3ImagePath = 'assets/images/onboarding/onboarding3.png';
+  static const String onboarding4ImagePath = 'assets/images/onboarding/onboarding4.png';
+  static const String onboarding5ImagePath = 'assets/images/onboarding/onboarding5.png';
   
   // Onboarding settings
   static const int totalOnboardingSlides = 5;
