@@ -1,67 +1,100 @@
+// lib/main.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'core/constants/app_constants.dart';
+import 'features/onboarding/presentation/screens/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // Set preferred orientations
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(const NMBMobileApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class NMBMobileApp extends StatelessWidget {
+  const NMBMobileApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NMB Mobile Clone',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
-      ),
-      home: const MyHomePage(title: 'NMB Mobile Clone'),
+      title: AppConstants.appName,
+      debugShowCheckedModeBanner: false,
+      theme: _buildTheme(),
+      home: const SplashScreen(),
     );
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+  ThemeData _buildTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: AppColors.primaryBlue,
+        primary: AppColors.primaryBlue,
+        secondary: AppColors.primaryOrange,
+        surface: AppColors.whiteBackground,
+        background: AppColors.backgroundColor,
+        error: AppColors.errorColor,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+      fontFamily: 'Roboto',
+      
+      // App Bar Theme
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.primaryBlue,
+        foregroundColor: AppColors.whiteBackground,
+        elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+        ),
+        titleTextStyle: AppTextStyles.appBarText,
+        centerTitle: true,
+      ),
+      
+      // Elevated Button Theme
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primaryOrange,
+          foregroundColor: AppColors.whiteBackground,
+          elevation: AppDimensions.buttonElevation,
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppDimensions.largePadding,
+            vertical: AppDimensions.mediumPadding,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              AppDimensions.mediumBorderRadius,
             ),
-          ],
+          ),
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      
+      // Progress Indicator Theme
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: AppColors.primaryOrange,
+        linearTrackColor: AppColors.inactiveIndicatorColor,
+        circularTrackColor: AppColors.inactiveIndicatorColor,
       ),
+      
+      // Scaffold Theme
+      scaffoldBackgroundColor: AppColors.backgroundColor,
+      
+      // Visual Density
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+      
+      // Platform Brightness
+      brightness: Brightness.light,
     );
   }
 }
