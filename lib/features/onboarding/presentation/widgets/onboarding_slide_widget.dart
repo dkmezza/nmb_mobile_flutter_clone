@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nmb_mobile_clone/core/constants/app_constants.dart';
 import 'package:nmb_mobile_clone/features/onboarding/data/models/onboarding_slide.dart';
 
-
 class OnboardingSlideWidget extends StatelessWidget {
   final OnboardingSlide slide;
   final bool isActive;
@@ -15,7 +14,7 @@ class OnboardingSlideWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       child: Image.asset(

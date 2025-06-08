@@ -1,5 +1,3 @@
-// lib/main.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'core/constants/app_constants.dart';
@@ -7,7 +5,7 @@ import 'features/onboarding/presentation/screens/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Set preferred orientations
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -42,7 +40,7 @@ class NMBMobileApp extends StatelessWidget {
         error: AppColors.errorColor,
       ),
       fontFamily: 'Roboto',
-      
+
       // App Bar Theme
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.primaryBlue,
@@ -56,7 +54,7 @@ class NMBMobileApp extends StatelessWidget {
         titleTextStyle: AppTextStyles.appBarText,
         centerTitle: true,
       ),
-      
+
       // Elevated Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -79,20 +77,20 @@ class NMBMobileApp extends StatelessWidget {
           ),
         ),
       ),
-      
+
       // Progress Indicator Theme
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primaryOrange,
         linearTrackColor: AppColors.inactiveIndicatorColor,
         circularTrackColor: AppColors.inactiveIndicatorColor,
       ),
-      
+
       // Scaffold Theme
       scaffoldBackgroundColor: AppColors.backgroundColor,
-      
+
       // Visual Density
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      
+
       // Platform Brightness
       brightness: Brightness.light,
     );
