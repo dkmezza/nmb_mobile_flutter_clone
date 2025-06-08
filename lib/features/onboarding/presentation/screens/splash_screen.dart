@@ -39,31 +39,19 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     // Logo scale animation
-    _logoScaleAnimation = Tween<double>(
-      begin: 0.5,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _logoController,
-      curve: AppCurves.elasticOut,
-    ));
+    _logoScaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
+      CurvedAnimation(parent: _logoController, curve: AppCurves.elasticOut),
+    );
 
     // Logo opacity animation
-    _logoOpacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _logoController,
-      curve: Curves.easeInOut,
-    ));
+    _logoOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _logoController, curve: Curves.easeInOut),
+    );
 
     // Fade out animation
-    _fadeAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.0,
-    ).animate(CurvedAnimation(
-      parent: _fadeController,
-      curve: Curves.easeInOut,
-    ));
+    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
   }
 
   void _startSplashSequence() async {
@@ -89,14 +77,12 @@ class _SplashScreenState extends State<SplashScreen>
     if (mounted) {
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const OnboardingScreen(),
+          pageBuilder:
+              (context, animation, secondaryAnimation) =>
+                  const OnboardingScreen(),
           transitionDuration: AppConstants.mediumAnimationDuration,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(
-              opacity: animation,
-              child: child,
-            );
+            return FadeTransition(opacity: animation, child: child);
           },
         ),
       );
@@ -131,11 +117,14 @@ class _SplashScreenState extends State<SplashScreen>
                   child: Opacity(
                     opacity: _logoOpacityAnimation.value,
                     child: Container(
-                      padding: const EdgeInsets.all(AppDimensions.extraLargePadding),
+                      padding: const EdgeInsets.all(
+                        AppDimensions.extraLargePadding,
+                      ),
                       child: Image.asset(
                         AppConstants.splashImagePath,
-                        width: 200,
-                        height: 200,
+                        width:
+                            MediaQuery.of(context).size.width *
+                            0.35, // scale relative to screen width
                         fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) {
                           // Fallback widget if image fails to load

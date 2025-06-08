@@ -5,7 +5,6 @@ import 'package:nmb_mobile_clone/features/onboarding/bloc/onboarding_bloc.dart';
 import 'package:nmb_mobile_clone/features/onboarding/bloc/onboarding_event.dart';
 import 'package:nmb_mobile_clone/features/onboarding/data/models/pin_state.dart';
 
-
 class PinInputOverlay extends StatelessWidget {
   final PinState pinState;
   final VoidCallback onQuickServicesPressed;
@@ -19,10 +18,12 @@ class PinInputOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final overlayHeight = screenHeight * AppDimensions.overlayMinHeight;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final overlayHeight = screenHeight * 0.45;
 
     return Container(
       height: overlayHeight,
+      width: screenWidth,
       decoration: BoxDecoration(
         color: AppColors.overlayBackgroundColor,
         borderRadius: const BorderRadius.only(
@@ -37,19 +38,25 @@ class PinInputOverlay extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppDimensions.largePadding,
-          vertical: AppDimensions.extraLargePadding,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _buildHeader(),
-            _buildPinInput(),
-            _buildKeypad(),
-            _buildQuickServices(),
-          ],
+      child: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppDimensions.largePadding,
+              vertical: AppDimensions.mediumPadding,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildHeader(),
+                _buildPinInput(),
+                const SizedBox(height: AppDimensions.mediumPadding),
+                _buildKeypad(),
+                const SizedBox(height: AppDimensions.mediumPadding),
+                _buildQuickServices(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -58,10 +65,7 @@ class PinInputOverlay extends StatelessWidget {
   Widget _buildHeader() {
     return Column(
       children: [
-        const Text(
-          AppStrings.greetingText,
-          style: AppTextStyles.greetingText,
-        ),
+        const Text(AppStrings.greetingText, style: AppTextStyles.greetingText),
         const SizedBox(height: AppDimensions.smallPadding),
         const Text(
           AppStrings.pinInstructionText,
@@ -83,7 +87,7 @@ class PinInputOverlay extends StatelessWidget {
 
   Widget _buildPinDot(int index) {
     final isEntered = index < pinState.length;
-    
+
     return Container(
       margin: const EdgeInsets.symmetric(
         horizontal: AppDimensions.smallPadding,
@@ -91,9 +95,7 @@ class PinInputOverlay extends StatelessWidget {
       width: 16,
       height: 16,
       decoration: BoxDecoration(
-        color: isEntered 
-            ? AppColors.primaryOrange 
-            : AppColors.pinInputBorder,
+        color: isEntered ? AppColors.primaryOrange : AppColors.pinInputBorder,
         shape: BoxShape.circle,
       ),
     );
@@ -136,52 +138,51 @@ class PinInputOverlay extends StatelessWidget {
 
   Widget _buildKeypadButton(String digit) {
     return Builder(
-      builder: (context) => GestureDetector(
-        onTap: () {
-          context.read<OnboardingBloc>().add(
-            OnboardingPinDigitAdded(digit: digit),
-          );
-        },
-        child: Container(
-          width: AppDimensions.pinButtonSize,
-          height: AppDimensions.pinButtonSize,
-          decoration: const BoxDecoration(
-            color: AppColors.pinButtonColor,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Text(
-              digit,
-              style: AppTextStyles.pinButtonText,
+      builder:
+          (context) => GestureDetector(
+            onTap: () {
+              context.read<OnboardingBloc>().add(
+                OnboardingPinDigitAdded(digit: digit),
+              );
+            },
+            child: Container(
+              width: AppDimensions.pinButtonSize,
+              height: AppDimensions.pinButtonSize,
+              decoration: const BoxDecoration(
+                color: AppColors.pinButtonColor,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Text(digit, style: AppTextStyles.pinButtonText),
+              ),
             ),
           ),
-        ),
-      ),
     );
   }
 
   Widget _buildDeleteButton() {
     return Builder(
-      builder: (context) => GestureDetector(
-        onTap: () {
-          context.read<OnboardingBloc>().add(
-            const OnboardingPinDigitRemoved(),
-          );
-        },
-        child: Container(
-          width: AppDimensions.pinButtonSize,
-          height: AppDimensions.pinButtonSize,
-          decoration: const BoxDecoration(
-            color: AppColors.deleteButtonColor,
-            shape: BoxShape.circle,
+      builder:
+          (context) => GestureDetector(
+            onTap: () {
+              context.read<OnboardingBloc>().add(
+                const OnboardingPinDigitRemoved(),
+              );
+            },
+            child: Container(
+              width: AppDimensions.pinButtonSize,
+              height: AppDimensions.pinButtonSize,
+              decoration: const BoxDecoration(
+                color: AppColors.deleteButtonColor,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.close,
+                color: AppColors.whiteBackground,
+                size: AppDimensions.mediumIconSize,
+              ),
+            ),
           ),
-          child: const Icon(
-            Icons.close,
-            color: AppColors.whiteBackground,
-            size: AppDimensions.mediumIconSize,
-          ),
-        ),
-      ),
     );
   }
 
@@ -206,4 +207,3 @@ class PinInputOverlay extends StatelessWidget {
     );
   }
 }
-
